@@ -6,6 +6,7 @@ IMAGE_NAME := codelytv/typescript-ddd-skeleton
 SERVICE_NAME := app
 MOOC_APP_NAME := mooc
 BACKOFFICE_APP_NAME := backoffice
+ART_APP_NAME := art
 
 # Test if the dependencies we need to run this Makefile are installed
 DOCKER := $(shell command -v docker)
@@ -42,10 +43,14 @@ start-backoffice-frontend: build
 start-backoffice-backend: build
 	docker-compose up $(BACKOFFICE_APP_NAME)-backend && docker-compose down
 
+# Start backoffice backend app
+start-art-backend: build
+	docker-compose up $(ART_APP_NAME)-backend && docker-compose down
+
 # Clean containers
 clean:
 	docker-compose down --rmi local --volumes --remove-orphans
 
 # Start databases containers in background
 start_database:
-	docker-compose up -d mongo elasticsearch rabbitmq
+	docker-compose up -d mongo elasticsearch rabbitmq mysql

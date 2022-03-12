@@ -1,0 +1,27 @@
+services:
+  Art.MysqlConnectionOptions:
+    factory:
+      class: ../../../../../Contexts/Art/Shared/infrastructure/persistence/typeorm/TypeormConfigFactory
+      method: 'createConfig'
+
+  Shared.TypeormConnectionManager:
+    factory:
+      class: ../../../../../Contexts/Shared/infrastructure/persistence/typeorm/TypeormClientFactory
+      method: 'createClient'
+    arguments: [ 'art', '@Art.MysqlConnectionOptions' ]
+
+  Art.pictures.PictureRepository:
+    class: ../../../../../Contexts/Art/Pictures/infrastructure/persistence/repository/TypeormPictureRepository
+    arguments: ['@Shared.TypeormConnectionManager']
+
+  Art.pictures.List:
+    class: ../../../../../Contexts/Art/Pictures/application/List/ListHandler
+    arguments: ['@Art.pictures.PictureRepository']
+    tags:
+      - { name: 'queryHandler' }
+
+  Art.pictures.SaveHandler:
+    class: ../../../../../Contexts/Art/Pictures/application/Create/SaveHandler
+    arguments: ['@Art.pictures.PictureRepository']
+    tags:
+      - { name: 'commandHandler' }

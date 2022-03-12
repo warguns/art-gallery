@@ -5,10 +5,16 @@ x-app-service: &default-app
   command: ''
   environment:
     - MONGO_URL=mongodb://mongo:27017/dev
+    - TYPEORM_HOST=mysql
+    - TYPEORM_USERNAME=root
+    - TYPEORM_PASSWORD=root
+    - ELASTICSEARCH_URL=http://192.168.1.46:9200
+    - ELASTICSEARCH_HOSTS=http://192.168.1.46:9200
   depends_on:
     - mongo
     - kibana
     - elasticsearch
+    - mysql
   volumes:
     - .:/code:delegated
     - node_modules:/code/node_modules:delegated
@@ -34,6 +40,12 @@ services:
     command: bash -c "npm run build && npm run start:backoffice:backend"
     ports:
       - 3001:3000
+
+  art-backend:
+    <<: *default-app
+    command: bash -c "npm run build && npm run dev:art:backend"
+    ports:
+      - 3002:3000
 
   mongo:
     image: mongo:3.4.6
@@ -74,7 +86,21 @@ services:
       - 5672:5672
       - 15672:15672
 
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: art
+      MYSQL_USER: art
+      MYSQL_PASSWORD: art
+    ports:
+      - "3309:3306"
+
 volumes:
   node_modules:
+  mysql_data:
   esdata:
     driver: local

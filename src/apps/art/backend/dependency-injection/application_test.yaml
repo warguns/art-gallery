@@ -1,0 +1,15 @@
+imports:
+  - { resource: ./application.yaml }
+
+services:
+  Art.Backend.EnvironmentArranger:
+    class: ../../../../../tests/Contexts/Shared/infrastructure/elastic/ElasticEnvironmentArranger
+    arguments: ['@Shared.ElasticConnectionManager', '@Backoffice.courses.ElasticConfig']
+
+  Art.EnvironmentArranger:
+    class: ../../../../../tests/Contexts/Shared/infrastructure/typeorm/TypeormEnvironmentArranger
+    arguments: [ '@Shared.TypeormConnectionManager' ]
+
+  Shared.EventBus:
+    class: ../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemorySyncEventBus
+    arguments: []

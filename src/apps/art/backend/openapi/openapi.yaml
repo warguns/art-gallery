@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: Art API
+  version: 1.0.0
+paths:
+  "/status":
+    get:
+      summary: Check microservice is responding
+      responses:
+        '200':
+          description: 200 response
+  "/pictures":
+    get:
+      summary: List Art pictures
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              example:
+                - id: '01508f90-e234-4ec6-830a-eb31afc285cc'
+                  name: test
+                  path: path
+                  value: 1000
+                  symbol: "$"
+                - id: a9145896-8359-4f94-b67c-0740d54a744c
+                  name: test
+                  path: path
+                  value: 1000
+                  symbol: "$"
+    post:
+      summary: Add Art picture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: test
+                path:
+                  type: string
+                  description: Art path
+                  example: path
+                money:
+                  type: number
+                  description: Art number
+                  example: 1000
+                symbol:
+                  type: string
+                  description: Money symbol
+                  example: "$"
+      responses:
+        '201':
+          description: 201 Created

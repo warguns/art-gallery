@@ -12,6 +12,7 @@ jobs:
         mongodb-version: [4.2]
         elasticsearch-version: ['7.9.3']
         rabbitmq-version: ['3.8.2-management-alpine']
+        mysql-version: ['5.7']
 
     steps:
       - uses: actions/checkout@v1
@@ -19,6 +20,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Launch Mysql
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: ${{ matrix.mysql-version }}
+          mysql user: 'art'
+          mysql database: 'art'
+          mysql password: 'art'
       - name: Launch MongoDB
         uses: wbari/start-mongoDB@v0.2
         with:
@@ -52,6 +60,10 @@ jobs:
       - name: npm test
         run: |
           npm test
+        env:
+         TYPEORM_HOST: localhost
+         TYPEORM_USERNAME: art
+         TYPEORM_PASSWORD: art
       - name: Cypress run
         uses: cypress-io/github-action@v1
         env:

@@ -11,12 +11,14 @@
     "npm": ">=6.7.0"
   },
   "scripts": {
+    "dev:art:backend": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules  ./src/apps/art/backend/start.ts",
     "dev:mooc:backend": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules  ./src/apps/mooc/backend/start.ts",
     "dev:backoffice:frontend": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/apps/backoffice/frontend/start.ts",
     "dev:backoffice:backend": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/apps/backoffice/backend/start.ts",
     "test": "npm run test:unit && npm run test:features",
     "test:unit": "NODE_ENV=test jest",
     "test:features": "npm run test:mooc:backend:features && npm run test:backoffice:backend:features",
+    "test:art:backend:features": "NODE_ENV=test cucumber-js -p art_backend",
     "test:mooc:backend:features": "NODE_ENV=test cucumber-js -p mooc_backend",
     "test:backoffice:backend:features": "NODE_ENV=test cucumber-js -p backoffice_backend",
     "lint": "tslint src/**/*.ts{,x}",
@@ -32,9 +34,9 @@
     "cypress:ci:start": "NODE_ENV=end2end ts-node tests/utils/cypress/startApps"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.11.0",
     "@types/amqplib": "^0.5.17",
     "@types/bluebird": "^3.5.33",
-    "@elastic/elasticsearch": "^7.11.0",
     "@types/bson": "^4.0.3",
     "@types/compression": "^1.7.0",
     "@types/convict": "^6.0.1",
@@ -58,6 +60,7 @@
     "copy": "^0.3.2",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-openapi-validator": "^4.13.5",
     "express-promise-router": "^4.0.1",
     "express-validator": "^6.10.0",
     "glob": "^7.1.6",
@@ -65,13 +68,18 @@
     "http-status": "^1.5.0",
     "mandrill-api": "^1.0.45",
     "mongodb": "^3.6.4",
+    "mysql": "^2.18.1",
     "node-dependency-injection": "^2.6.11",
     "nunjucks": "^3.2.3",
+    "reflect-metadata": "^0.1.13",
+    "swagger-ui-express": "^4.3.0",
     "ts-node": "^9.1.1",
+    "typeorm": "^0.2.41",
     "typescript": "^4.2.3",
     "uuid": "^8.3.2",
     "uuid-validate": "0.0.3",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.72",
@@ -83,6 +91,8 @@
     "@types/jest": "^26.0.20",
     "@types/nunjucks": "^3.1.4",
     "@types/supertest": "^2.0.10",
+    "@types/swagger-ui-express": "^4.1.3",
+    "@types/yamljs": "^0.2.31",
     "cucumber": "^6.0.5",
     "cypress": "^6.6.0",
     "faker": "^5.4.0",

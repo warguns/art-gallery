@@ -1,0 +1,13 @@
+services:
+  Apps.Art.Backend.controllers.StatusGetController:
+    class: ../../controllers/StatusGetController
+    arguments: []
+
+  Apps.Art.Backend.controllers.PicturesGetController:
+    class: ../../controllers/PicturesGetController
+    arguments: ['@Shared.QueryBus']
+
+  Apps.Art.Backend.controllers.PicturesPostController:
+    class: ../../controllers/PicturesPostController
+    arguments: ['@Shared.CommandBus']
+
